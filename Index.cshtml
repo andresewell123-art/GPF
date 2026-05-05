@@ -1,0 +1,876 @@
+﻿@page
+@model IndexModel
+
+<!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="Gauteng Property Finance - Mortgage specialists offering tailored home financing solutions in Gauteng. First-time buyers, self-employed applicants, pre-approvals and expert guidance.">
+        <title>Gauteng Property Finance | Opening Doors Through Property Finance</title>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+        <style>
+        
+            :root {
+    --blue: #0033a0;
+    --red: #d71920;
+}
+        
+            .tail-container {
+            font-family: 'Inter', system-ui, sans-serif;
+            }
+        
+           .hero-bg {
+    background: linear-gradient(135deg, #0033a0 0%, #1e4ed8 100%);
+}
+        
+            .nav-link {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+        
+            .nav-link:hover {
+            color: #34d399;
+            transform: translateY(-2px);
+            }
+        
+            .section-header {
+            position: relative;
+            }
+        
+            .section-header:after {
+            content: '';
+            position: absolute;
+            width: 80px;
+            height: 3px;
+        background: #d71920;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            }
+        
+            .timeline-step {
+            transition: all 0.4s ease;
+            }
+        
+            .timeline-step:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+            }
+        
+            .bank-card {
+            transition: all 0.3s ease;
+            }
+        
+            .bank-card:hover {
+            transform: scale(1.03);
+            }
+        
+            .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: linear-gradient(to right, #34d399, #10b981);
+            z-index: 50;
+            }
+
+        /* Watermark */
+        .watermark {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 55vw;
+        max-width: 700px;
+        opacity: 0.04;
+        pointer-events: none;
+        z-index: 0;
+        user-select: none;
+        }
+
+            /* FIX: Modal overlay — use display:none / display:flex via JS, not Tailwind hidden/flex conflict */
+            #modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.7);
+            align-items: center;
+            justify-content: center;
+            z-index: 999;
+            }
+
+            #modal.is-open {
+            display: flex;
+            }
+        </style>
+    </head>
+    <body class="tail-container text-slate-800 bg-white">
+
+    <img src="images/3.png" alt="" class="watermark" aria-hidden="true">
+
+        <!-- Progress Bar -->
+        <div id="progress-bar" class="scroll-progress w-0"></div>
+
+        <!-- NAVBAR -->
+        <nav class="bg-white border-b sticky top-0 z-50 shadow-sm">
+            <div class="max-w-7xl mx-auto">
+                <div class="px-6 py-5 flex justify-between items-center">
+                    <!-- Logo -->
+                    <div class="flex items-center gap-x-3">
+                    <div class="flex justify-center mb-12">
+                        <img src="images/3.png"
+                             alt="Gauteng Property Finance Logo"
+                             class="h-45 w-60">
+                    </div>
+                        <div>
+                            <span class="text-2xl font-bold tracking-tighter text-[#0f3d3a]">GAUTENG</span>
+                            <span class="block text-sm font-medium text-emerald-600 -mt-1">PROPERTY FINANCE</span>
+                        </div>
+                    </div>
+
+                    <!-- Desktop Menu -->
+                    <!-- FIX: Added event.preventDefault() to all nav links to prevent href jump fighting smooth scroll -->
+                    <div class="hidden md:flex items-center gap-x-8 text-sm font-medium">
+                        <a href="#home" onclick="event.preventDefault(); smoothScrollTo('home')" class="nav-link text-slate-700 hover:text-emerald-600">Home</a>
+                        <a href="#about" onclick="event.preventDefault(); smoothScrollTo('about')" class="nav-link text-slate-700 hover:text-emerald-600">About Us</a>
+                        <a href="#firsttime" onclick="event.preventDefault(); smoothScrollTo('firsttime')" class="nav-link text-slate-700 hover:text-emerald-600">First-Time Buyers</a>
+                        <a href="#selfemployed" onclick="event.preventDefault(); smoothScrollTo('selfemployed')" class="nav-link text-slate-700 hover:text-emerald-600">Self-Employed</a>
+                        <a href="#steps" onclick="event.preventDefault(); smoothScrollTo('steps')" class="nav-link text-slate-700 hover:text-emerald-600">7 Steps</a>
+                        <a href="#advantages" onclick="event.preventDefault(); smoothScrollTo('advantages')" class="nav-link text-slate-700 hover:text-emerald-600">Benefits</a>
+                        <a href="#salary" onclick="event.preventDefault(); smoothScrollTo('salary')" class="nav-link text-slate-700 hover:text-emerald-600">Salary Guide</a>
+                    </div>
+
+                   <div class="flex items-center gap-x-4">
+    <button onclick="smoothScrollTo('contact')"
+       class="bg-[#0033a0] hover:bg-[#1e4ed8] text-white px-6 py-3 rounded-2xl text-sm font-semibold transition-all flex items-center gap-x-2">
+        <i class="fa-solid fa-calculator"></i>
+        PRE-APPROVE ME
+    </button>
+
+    <button onclick="smoothScrollTo('contact')"
+          class="border-2 border-[#0033a0] text-[#0033a0] hover:bg-blue-50 px-6 py-3 rounded-2xl text-sm font-semibold transition-all">
+        CONTACT US
+    </button>
+
+    <button id="mobile-menu-btn" onclick="toggleMobileMenu()" class="md:hidden text-2xl text-slate-700">
+        <i class="fa-solid fa-bars"></i>
+    </button>
+</div>
+                </div>
+            </div>
+        
+            <!-- Mobile Menu -->
+            <!-- FIX: Mobile links now call smoothScrollTo() with preventDefault so they scroll correctly and close the menu -->
+            <div id="mobile-menu" class="hidden md:hidden bg-white border-t px-6 py-6">
+                <div class="flex flex-col gap-y-5 text-lg font-medium">
+                    <a href="#home" onclick="event.preventDefault(); smoothScrollTo('home')" class="nav-link">Home</a>
+                    <a href="#about" onclick="event.preventDefault(); smoothScrollTo('about')" class="nav-link">About Us</a>
+                    <a href="#firsttime" onclick="event.preventDefault(); smoothScrollTo('firsttime')" class="nav-link">First-Time Buyers</a>
+                    <a href="#selfemployed" onclick="event.preventDefault(); smoothScrollTo('selfemployed')" class="nav-link">Self-Employed</a>
+                    <a href="#steps" onclick="event.preventDefault(); smoothScrollTo('steps')" class="nav-link">7 Steps Process</a>
+                    <a href="#advantages" onclick="event.preventDefault(); smoothScrollTo('advantages')" class="nav-link">Benefits of Ownership</a>
+                    <a href="#salary" onclick="event.preventDefault(); smoothScrollTo('salary')" class="nav-link">Salary Requirements</a>
+                    <a href="#contact" onclick="event.preventDefault(); smoothScrollTo('contact')" class="nav-link">Contact</a>
+                </div>
+            </div>
+        </nav>
+
+        <!-- HERO -->
+        <section id="home" class="hero-bg text-white min-h-screen flex items-center relative overflow-hidden">
+            <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
+                <!-- Left Text -->
+                <div class="space-y-8 pt-12 md:pt-0">
+                    <div class="inline-flex items-center gap-x-3 bg-white/10 backdrop-blur-md px-6 py-2 rounded-3xl text-sm">
+                        <span class="text-emerald-300">★★★★★</span>
+                        <span class="font-medium">Trusted by 1,200+ Gauteng families</span>
+                    </div>
+                
+                    <h1 class="text-6xl md:text-7xl font-bold leading-none tracking-tighter">
+                        OPENING DOORS<br>THROUGH<br><span class="text-emerald-300">PROPERTY FINANCE</span>
+                    </h1>
+                
+                    <p class="text-xl text-white/90 max-w-lg">
+                        Mortgage specialists offering home financing solutions tailored to your individual needs.
+                    </p>
+                
+                    <div class="flex flex-wrap gap-4">
+                        <button onclick="smoothScrollTo('firsttime')"
+                                class="bg-white text-[#0f3d3a] hover:bg-emerald-100 px-10 py-5 rounded-3xl font-semibold text-lg flex items-center gap-x-3 transition-all">
+                            <i class="fa-solid fa-house"></i>
+                            START YOUR JOURNEY
+                        </button>
+                    <button onclick="smoothScrollTo('contact')"
+                            class="border-2 border-white text-white hover:bg-white/10 px-10 py-5 rounded-3xl font-semibold text-lg transition-all">
+                        GET PRE-APPROVED
+                    </button>
+                    </div>
+                
+                    <div class="flex items-center gap-x-8 text-sm pt-8">
+                        <div class="flex items-center gap-x-2">
+                            <i class="fa-solid fa-check text-emerald-300"></i>
+                            <span>First-time buyers welcome</span>
+                        </div>
+                        <div class="flex items-center gap-x-2">
+                            <i class="fa-solid fa-check text-emerald-300"></i>
+                            <span>Self-employed specialists</span>
+                        </div>
+                    </div>
+                </div>
+            
+                <!-- Right Visual -->
+                <div class="relative hidden md:block">
+                    <div class="bg-white rounded-3xl shadow-2xl overflow-hidden">
+                        <img src="https://picsum.photos/id/1015/800/900" alt="Modern living room - Gauteng Property Finance"
+                             class="w-full h-auto object-cover">
+                        <div class="absolute bottom-8 left-8 bg-white rounded-2xl p-6 shadow-xl max-w-[280px]">
+                            <div class="flex items-center gap-x-4">
+                                <div class="w-10 h-10 bg-emerald-100 rounded-2xl flex items-center justify-center text-2xl">🏠</div>
+                                <div>
+                                    <p class="font-semibold text-slate-800">Ready to buy in Gauteng?</p>
+                                    <p class="text-emerald-600 text-sm">Let us guide you</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Decorative badge -->
+                    <div class="absolute -top-6 -right-6 bg-white text-[#0f3d3a] px-8 py-4 rounded-3xl shadow-xl font-bold text-lg rotate-6">
+                        EST. 2023
+                    </div>
+                </div>
+            </div>
+        
+            <!-- Scroll indicator -->
+            <div class="absolute bottom-12 left-1/2 hidden md:flex flex-col items-center text-white/70 text-xs tracking-widest">
+                <span>SCROLL TO EXPLORE</span>
+                <i class="fa-solid fa-chevron-down animate-bounce mt-3"></i>
+            </div>
+        </section>
+
+        <!-- ABOUT US -->
+        <section id="about" class="py-24 bg-white">
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="grid md:grid-cols-12 gap-12 items-center">
+                    <div class="md:col-span-5">
+                        <div class="sticky top-24">
+                            <span class="px-5 py-2 bg-emerald-100 text-emerald-700 rounded-3xl text-sm font-medium">ABOUT GAUTENG PROPERTY FINANCE</span>
+                            <h2 class="text-5xl font-bold leading-tight mt-6">We're mortgage specialists who offer home financing solutions tailored to your individual needs.</h2>
+                            <div class="mt-10 flex gap-4">
+                                <div class="bg-slate-100 px-6 py-4 rounded-3xl text-center">
+                                    <div class="text-3xl font-bold text-emerald-600">1,200+</div>
+                                    <div class="text-xs text-slate-500">Families helped</div>
+                                </div>
+                                <div class="bg-slate-100 px-6 py-4 rounded-3xl text-center">
+                                    <div class="text-3xl font-bold text-emerald-600">98%</div>
+                                    <div class="text-xs text-slate-500">Approval rate</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <div class="md:col-span-7 space-y-8 text-lg leading-relaxed text-slate-600">
+                        <p class="text-2xl font-medium text-slate-800">At Gauteng Property Finance, the focus is simple — helping you secure the right home financing solution for your situation.</p>
+                    
+                        <div class="prose prose-lg">
+                            <p>This isn't a traditional bank environment. Instead, you're dealing with specialists who focus on property finance every single day. The goal is to make the process simpler, more flexible, and far easier to understand.</p>
+                            <p>You get a more personal experience, real guidance, and solutions designed around your needs rather than a one-size-fits-all approach. By connecting directly to competitive lending sources, the aim is always to secure the most suitable home loan structure while keeping costs as competitive as possible.</p>
+                            <p>Property finance is not just another service — it's the core focus. From first-time buyers to experienced property investors, the priority is helping you navigate the home loan process with confidence and clarity.</p>
+                            <p>Transparency also matters. You should always know exactly what you're signing up for. That means clear communication, straightforward advice, and no hidden surprises along the way.</p>
+                        </div>
+                    
+                        <div class="pt-8 border-t flex items-center gap-x-6">
+                            <div class="w-14 h-14 bg-emerald-100 rounded-2xl flex items-center justify-center text-3xl">📍</div>
+                            <div>
+                                <div class="font-semibold">Johannesburg, Gauteng</div>
+                                <div class="text-sm text-slate-500">Proudly serving the entire Gauteng province</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FIRST-TIME BUYERS -->
+        <section id="firsttime" class="py-24 bg-slate-50">
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="text-center mb-16">
+                    <span class="text-emerald-600 font-medium">FOR FIRST-TIME BUYERS</span>
+                    <h2 class="text-5xl font-bold mt-3">Home Loan for First-Time Buyers</h2>
+                </div>
+            
+                <div class="prose prose-lg max-w-3xl mx-auto text-slate-600">
+                    <p class="text-2xl leading-tight">Buying your first home is an exciting step, and for most people it's one of the biggest financial decisions you'll ever make. That's where Gauteng Property Finance comes in. You don't have to figure it all out on your own. With the right guidance and the right finance structure, you can move forward with confidence.</p>
+                
+                    <div class="my-12 bg-white rounded-3xl p-10 shadow-sm">
+                        <h3 class="text-2xl font-semibold mb-6 flex items-center gap-x-3">
+                            <span class="text-emerald-500">1.</span> Are you ready to buy?
+                        </h3>
+                        <p class="text-lg">Before you start looking at homes, it's important to ask yourself one simple question: Are you financially ready for a long-term commitment like a home loan?</p>
+                        <ul class="mt-8 space-y-6">
+                            <li class="flex gap-x-4">
+                                <i class="fa-solid fa-check-circle text-emerald-500 mt-1"></i>
+                                <span>Earn a stable monthly income and your job situation is secure? You may qualify.</span>
+                            </li>
+                            <li class="flex gap-x-4">
+                                <i class="fa-solid fa-check-circle text-emerald-500 mt-1"></i>
+                                <span>Self-employed? We specialise in helping you too.</span>
+                            </li>
+                            <li class="flex gap-x-4">
+                                <i class="fa-solid fa-check-circle text-emerald-500 mt-1"></i>
+                                <span>Monthly bond repayment + rates + insurance should ideally stay within 25%-30% of gross income.</span>
+                            </li>
+                        </ul>
+                    </div>
+                
+                    <h3 class="text-2xl font-semibold mb-8">Important things to consider</h3>
+                    <div class="grid md:grid-cols-2 gap-8">
+                        <div class="bg-white p-8 rounded-3xl">
+                            <h4 class="font-semibold text-lg mb-4">Type of home</h4>
+                            <p>Your first home doesn't have to be your dream mansion. A small apartment may be the perfect starting point.</p>
+                        </div>
+                        <div class="bg-white p-8 rounded-3xl">
+                            <h4 class="font-semibold text-lg mb-4">Location matters</h4>
+                            <p>Close to work, schools, shops, medical facilities. Safety and long-term property value are key.</p>
+                        </div>
+                    </div>
+                
+                    <h3 class="text-2xl font-semibold mt-16 mb-8">Useful tips when house-hunting</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div class="timeline-step bg-white p-8 rounded-3xl border border-slate-100">
+                            <div class="text-emerald-500 text-4xl font-bold mb-4">01</div>
+                            <p class="font-medium">Take photos with your phone</p>
+                            <p class="text-sm text-slate-500 mt-3">After seeing several properties in one day, details blur together.</p>
+                        </div>
+                        <div class="timeline-step bg-white p-8 rounded-3xl border border-slate-100">
+                            <div class="text-emerald-500 text-4xl font-bold mb-4">02</div>
+                            <p class="font-medium">Make notes about each property</p>
+                            <p class="text-sm text-slate-500 mt-3">Layout, size, condition, unique features.</p>
+                        </div>
+                        <div class="timeline-step bg-white p-8 rounded-3xl border border-slate-100">
+                            <div class="text-emerald-500 text-4xl font-bold mb-4">03</div>
+                            <p class="font-medium">Visit shortlisted homes again</p>
+                            <p class="text-sm text-slate-500 mt-3">A second viewing reveals what you missed first time.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SELF-EMPLOYED GUIDE -->
+        <section id="selfemployed" class="py-24 bg-white">
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="max-w-3xl mx-auto text-center mb-16">
+                    <span class="px-6 py-3 bg-orange-100 text-orange-700 rounded-3xl text-sm font-medium">SPECIALISED GUIDANCE</span>
+                    <h2 class="text-5xl font-bold mt-4">A Guide to Getting a Home Loan if You're Self-Employed</h2>
+                </div>
+            
+                <div class="prose prose-lg mx-auto text-slate-600">
+                    <p class="lead">Working for yourself has many advantages. But fluctuating earnings can make lenders look closer. The good news — buying a home while self-employed is absolutely possible with the right preparation and team behind you.</p>
+                
+                    <div class="my-16 bg-emerald-50 rounded-3xl p-10">
+                        <h3 class="text-2xl font-semibold mb-6">Start by understanding what you can afford</h3>
+                        <ul class="space-y-4 text-lg">
+                            <li class="flex items-start gap-3"><span class="bg-emerald-200 text-emerald-700 w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-1">✓</span> Monthly repayment should ideally not exceed 25% of average monthly income</li>
+                            <li class="flex items-start gap-3"><span class="bg-emerald-200 text-emerald-700 w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-1">✓</span> Keep personal and business finances separate</li>
+                            <li class="flex items-start gap-3"><span class="bg-emerald-200 text-emerald-700 w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-1">✓</span> Prepare a deposit to strengthen your application</li>
+                        </ul>
+                    </div>
+                
+                    <h3 class="font-semibold text-2xl mb-8">Documents typically required for self-employed applicants:</h3>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="bg-white border border-slate-200 rounded-3xl p-8">
+                            <ul class="space-y-5 text-base">
+                                <li class="flex gap-3"><i class="fa-solid fa-file-lines text-emerald-500"></i> Proof of income + accountant letter</li>
+                                <li class="flex gap-3"><i class="fa-solid fa-file-lines text-emerald-500"></i> Last 6 months personal &amp; business bank statements</li>
+                                <li class="flex gap-3"><i class="fa-solid fa-file-lines text-emerald-500"></i> Last 2 years financial statements</li>
+                                <li class="flex gap-3"><i class="fa-solid fa-file-lines text-emerald-500"></i> Business registration / trust deed (if applicable)</li>
+                                <li class="flex gap-3"><i class="fa-solid fa-file-lines text-emerald-500"></i> Copy of ID</li>
+                            </ul>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 7 STEPS PROCESS -->
+        <section id="steps" class="py-24 bg-slate-900 text-white">
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="flex flex-col md:flex-row items-end justify-between mb-16">
+                    <div>
+                        <div class="flex items-center gap-x-4">
+                            <span class="text-emerald-400 text-5xl font-bold">7</span>
+                            <div>
+                                <span class="uppercase tracking-[3px] text-emerald-400 text-sm font-medium">STEPS TO YOUR DREAM HOME</span>
+                                <h2 class="text-5xl font-bold">Through our partnership process</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="max-w-xs text-white/70">Expert home loan advice and service, absolutely free.</p>
+                </div>
+            
+                <div class="grid md:grid-cols-7 gap-6">
+                    <div class="timeline-step bg-white/10 backdrop-blur-lg border border-white/20 rounded-3xl p-8 text-center">
+                        <div class="w-12 h-12 bg-emerald-500 text-white rounded-2xl mx-auto flex items-center justify-center text-3xl font-bold mb-6">1</div>
+                        <h4 class="font-semibold text-xl mb-2">GET PRE-QUALIFIED</h4>
+                        <p class="text-sm text-white/70">Know what you can afford before you start the process.</p>
+                    </div>
+                    <div class="timeline-step bg-white/10 backdrop-blur-lg border border-white/20 rounded-3xl p-8 text-center">
+                        <div class="w-12 h-12 bg-emerald-500 text-white rounded-2xl mx-auto flex items-center justify-center text-3xl font-bold mb-6">2</div>
+                        <h4 class="font-semibold text-xl mb-2">FIND YOUR DREAM HOME</h4>
+                        <p class="text-sm text-white/70">Search for houses with clarity and confidence.</p>
+                    </div>
+                    <div class="timeline-step bg-white/10 backdrop-blur-lg border border-white/20 rounded-3xl p-8 text-center">
+                        <div class="w-12 h-12 bg-emerald-500 text-white rounded-2xl mx-auto flex items-center justify-center text-3xl font-bold mb-6">3</div>
+                        <h4 class="font-semibold text-xl mb-2">OFFER TO PURCHASE</h4>
+                        <p class="text-sm text-white/70">Submit your signed OTP once you find the right home.</p>
+                    </div>
+                    <div class="timeline-step bg-white/10 backdrop-blur-lg border border-white/20 rounded-3xl p-8 text-center">
+                        <div class="w-12 h-12 bg-emerald-500 text-white rounded-2xl mx-auto flex items-center justify-center text-3xl font-bold mb-6">4</div>
+                        <h4 class="font-semibold text-xl mb-2">GET FINANCE</h4>
+                        <p class="text-sm text-white/70">We submit one application to multiple banks and manage the process.</p>
+                    </div>
+                    <div class="timeline-step bg-white/10 backdrop-blur-lg border border-white/20 rounded-3xl p-8 text-center">
+                        <div class="w-12 h-12 bg-emerald-500 text-white rounded-2xl mx-auto flex items-center justify-center text-3xl font-bold mb-6">5</div>
+                        <h4 class="font-semibold text-xl mb-2">ONCE APPROVED</h4>
+                        <p class="text-sm text-white/70">An attorney manages registration and transfer of your bond.</p>
+                    </div>
+                    <div class="timeline-step bg-white/10 backdrop-blur-lg border border-white/20 rounded-3xl p-8 text-center">
+                        <div class="w-12 h-12 bg-emerald-500 text-white rounded-2xl mx-auto flex items-center justify-center text-3xl font-bold mb-6">6</div>
+                        <h4 class="font-semibold text-xl mb-2">GET INSURED</h4>
+                        <p class="text-sm text-white/70">Protect your home and family through preferred providers.</p>
+                    </div>
+                    <div class="timeline-step bg-white/10 backdrop-blur-lg border border-white/20 rounded-3xl p-8 text-center relative">
+                        <div class="w-12 h-12 bg-emerald-500 text-white rounded-2xl mx-auto flex items-center justify-center text-3xl font-bold mb-6">7</div>
+                        <h4 class="font-semibold text-xl mb-2">MOVE INTO YOUR DREAM HOME!</h4>
+                        <div class="absolute -bottom-4 right-6 text-7xl">🏡</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FIRST INSTALMENT REPAYMENT INFOGRAPHIC -->
+        <section class="py-24 bg-white">
+            <div class="max-w-7xl mx-auto px-6">
+                <h2 class="text-center text-4xl font-bold mb-12">First Instalment Repayment After Registration</h2>
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <!-- Absa -->
+                    <div class="bank-card bg-gradient-to-br from-red-50 to-white border border-red-200 rounded-3xl p-8">
+                        <div class="flex items-center gap-x-3 mb-8">
+                            <div class="w-10 h-10 bg-red-600 text-white rounded-2xl flex items-center justify-center font-bold">A</div>
+                            <span class="font-bold text-xl">ABSA</span>
+                        </div>
+                        <div class="space-y-6 text-sm">
+                            <div>
+                                <div class="text-red-600 font-medium">1st to 15th of the month</div>
+                                <div class="text-xs text-slate-500">First instalment due from 1st of following month on selected debit date</div>
+                            </div>
+                            <div>
+                                <div class="text-red-600 font-medium">16th to last day</div>
+                                <div class="text-xs text-slate-500">Due from 1st of following month</div>
+                            </div>
+                            <p class="text-xs bg-red-100 px-4 py-2 rounded-2xl inline-block">ABSA allows a 28-day grace period after registration.</p>
+                        </div>
+                    </div>
+                
+                    <!-- FNB -->
+                    <div class="bank-card bg-gradient-to-br from-orange-50 to-white border border-orange-200 rounded-3xl p-8">
+                        <div class="flex items-center gap-x-3 mb-8">
+                            <div class="w-10 h-10 bg-orange-600 text-white rounded-2xl flex items-center justify-center">T</div>
+                            <span class="font-bold text-xl">FNB</span>
+                        </div>
+                        <div class="text-center">
+                            <p class="font-medium">1st to last day of the month</p>
+                            <div class="my-6 text-orange-600 font-medium">15 calendar days after registration date selected</div>
+                        </div>
+                    </div>
+                
+                    <!-- Nedbank -->
+                    <div class="bank-card bg-gradient-to-br from-emerald-50 to-white border border-emerald-200 rounded-3xl p-8">
+                        <div class="flex items-center gap-x-3 mb-8">
+                            <div class="w-10 h-10 bg-emerald-700 text-white rounded-2xl flex items-center justify-center font-bold">N</div>
+                            <span class="font-bold text-xl">NEDBANK</span>
+                        </div>
+                        <div class="text-center text-emerald-700">
+                            <p class="font-medium">1st to last day of the month</p>
+                            <p class="my-8">Due in the month following registration, on the debit order date selected by the client.</p>
+                        </div>
+                    </div>
+                
+                    <!-- Standard Bank -->
+                    <div class="bank-card bg-gradient-to-br from-blue-50 to-white border border-blue-200 rounded-3xl p-8">
+                        <div class="flex items-center gap-x-3 mb-8">
+                            <div class="w-10 h-10 bg-blue-700 text-white rounded-2xl flex items-center justify-center font-bold">S</div>
+                            <span class="font-bold text-xl">STANDARD BANK</span>
+                        </div>
+                        <div class="space-y-6 text-sm">
+                            <div class="bg-white rounded-2xl p-5 border">
+                                1st–15th: Due following month
+                            </div>
+                            <div class="bg-white rounded-2xl p-5 border">
+                                16th–last: Debit order collected following month
+                            </div>
+                            <p class="text-xs text-blue-700">First payment must be made within 45 days of registration.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5 ADVANTAGES -->
+        <section id="advantages" class="py-24 bg-[#0f3d3a] text-white">
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="flex justify-center mb-8">
+                    <span class="bg-white/10 text-white px-8 py-3 rounded-3xl text-sm">HOME OWNERSHIP BENEFITS</span>
+                </div>
+                <h2 class="text-center text-5xl font-bold mb-16">5 Advantages of Home Ownership</h2>
+            
+                <div class="grid md:grid-cols-5 gap-8">
+                    <div class="advantage-card bg-white/10 backdrop-blur p-8 rounded-3xl text-center hover:bg-white/20 transition">
+                        <div class="text-6xl mb-6">1</div>
+                        <p class="font-medium text-xl">You build your own wealth by investing in property that will appreciate over time.</p>
+                    </div>
+                    <div class="advantage-card bg-white/10 backdrop-blur p-8 rounded-3xl text-center hover:bg-white/20 transition">
+                        <div class="text-6xl mb-6">2</div>
+                        <p class="font-medium text-xl">You have freedom to own pets and customize your living space according to your taste.</p>
+                    </div>
+                    <div class="advantage-card bg-white/10 backdrop-blur p-8 rounded-3xl text-center hover:bg-white/20 transition">
+                        <div class="text-6xl mb-6">3</div>
+                        <p class="font-medium text-xl">You can rent out the property and have someone else pay your bond.</p>
+                    </div>
+                    <div class="advantage-card bg-white/10 backdrop-blur p-8 rounded-3xl text-center hover:bg-white/20 transition">
+                        <div class="text-6xl mb-6">4</div>
+                        <p class="font-medium text-xl">You have the opportunity to add value to your home.</p>
+                    </div>
+                    <div class="advantage-card bg-white/10 backdrop-blur p-8 rounded-3xl text-center hover:bg-white/20 transition">
+                        <div class="text-6xl mb-6">5</div>
+                        <p class="font-medium text-xl">You'll be part of the community.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SALARY GUIDE -->
+        <section id="salary" class="py-24 bg-white">
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-5xl font-bold">What monthly salary is needed to afford a home loan</h2>
+                    <p class="mt-4 text-slate-500">Based on a prime lending interest rate of <span class="font-bold text-red-600">10.25%</span> and repayable over 20 years. Guideline only.</p>
+                </div>
+            
+                <div class="overflow-x-auto">
+                    <table class="w-full max-w-5xl mx-auto border-collapse">
+                        <thead>
+                            <tr class="bg-slate-900 text-white">
+                                <th class="py-7 px-8 text-left font-medium">BOND AMOUNT<br><span class="text-xs text-emerald-400">House price</span></th>
+                                <th class="py-7 px-8 font-medium">MONTHLY SALARY<br><span class="text-xs text-emerald-400">Income needed</span></th>
+                                <th class="py-7 px-8 font-medium">MONTHLY INSTALMENT<br><span class="text-xs text-emerald-400">of home loan</span></th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-lg divide-y">
+                            <tr><td class="py-6 px-8">R 500 000</td><td class="py-6 px-8">R 16 361</td><td class="py-6 px-8 font-semibold">R 4 908</td></tr>
+                            <tr><td class="py-6 px-8">R 750 000</td><td class="py-6 px-8">R 24 542</td><td class="py-6 px-8 font-semibold">R 7 362</td></tr>
+                            <tr><td class="py-6 px-8">R 1 000 000</td><td class="py-6 px-8">R 32 722</td><td class="py-6 px-8 font-semibold">R 9 816</td></tr>
+                            <tr><td class="py-6 px-8">R 1 250 000</td><td class="py-6 px-8">R 40 902</td><td class="py-6 px-8 font-semibold">R 12 271</td></tr>
+                            <tr><td class="py-6 px-8">R 1 500 000</td><td class="py-6 px-8">R 49 083</td><td class="py-6 px-8 font-semibold">R 14 725</td></tr>
+                            <tr><td class="py-6 px-8">R 2 000 000</td><td class="py-6 px-8">R 65 443</td><td class="py-6 px-8 font-semibold">R 19 633</td></tr>
+                            <tr><td class="py-6 px-8">R 3 000 000</td><td class="py-6 px-8">R 98 165</td><td class="py-6 px-8 font-semibold">R 29 449</td></tr>
+                            <tr><td class="py-6 px-8">R 4 000 000</td><td class="py-6 px-8">R 130 886</td><td class="py-6 px-8 font-semibold">R 39 266</td></tr>
+                            <tr><td class="py-6 px-8">R 5 000 000</td><td class="py-6 px-8">R 163 608</td><td class="py-6 px-8 font-semibold">R 49 082</td></tr>
+                            <tr><td class="py-6 px-8">R 6 000 000</td><td class="py-6 px-8">R 196 329</td><td class="py-6 px-8 font-semibold">R 58 899</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p class="text-center text-xs text-slate-500 mt-10">For expert home loan advice and service, absolutely free!</p>
+            </div>
+        </section>
+
+       
+        
+    <!-- CONTACT + DOWNLOAD + UPLOAD SECTION -->
+    <section id="contact" class="py-24 bg-slate-50">
+        <div class="max-w-4xl mx-auto px-6">
+
+            <h2 class="text-4xl font-bold text-center mb-6">
+                Start Your Home Loan Application
+            </h2>
+
+            <p class="text-center text-slate-600 mb-12">
+                Fill in your details to download the official application form, then upload it once completed.
+            </p>
+
+            <!-- STEP 1: CONTACT FORM -->
+            <div id="step1" class="bg-white p-10 rounded-3xl shadow-xl space-y-6">
+
+                <input type="text" id="name" placeholder="Full Name"
+                       class="w-full border rounded-xl px-5 py-4" required>
+
+                <input type="email" id="email" placeholder="Email Address"
+                       class="w-full border rounded-xl px-5 py-4" required>
+
+                <input type="tel" id="phone" placeholder="Phone Number"
+                       class="w-full border rounded-xl px-5 py-4" required>
+
+                <button onclick="downloadForm()"
+                        class="w-full bg-emerald-700 text-white py-5 rounded-xl font-bold text-lg">
+                    DOWNLOAD APPLICATION FORM
+                </button>
+            </div>
+
+            <!-- STEP 2: UPLOAD -->
+            <div id="step2" class="bg-white p-10 rounded-3xl shadow-xl mt-10 hidden">
+
+                <h3 class="text-2xl font-bold mb-4">
+                    Upload Your Completed Application
+                </h3>
+
+                <input type="file" id="fileUpload" accept=".pdf"
+                       class="w-full border rounded-xl px-5 py-4">
+
+                <button onclick="sendEmail()"
+                        class="w-full mt-6 bg-emerald-700 text-white py-5 rounded-xl font-bold text-lg">
+                    SUBMIT APPLICATION
+                </button>
+
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- EMAILJS -->
+    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+
+    <script>
+        /* =========================
+        🔑 EMAILJS CONFIG
+        ========================= */
+        emailjs.init("ryBe9a2zMtai7Nhfi"); // ← replace
+
+
+        /* =========================
+        📥 DOWNLOAD PDF
+        ========================= */
+        function downloadForm() {
+
+        const name = document.getElementById("name").value.trim();
+        const email = document.getElementById("email").value.trim();
+        const phone = document.getElementById("phone").value.trim();
+
+        if (!name || !email || !phone) {
+        alert("Please complete all fields first.");
+        return;
+        }
+
+        // 🔽 CHANGE THIS PATH TO YOUR PDF FILE
+        const link = document.createElement("a");
+        link.href = "/docs/3.pdf"; // your PDF path
+        link.download = "HomeLoanApplication.pdf";
+        link.click();
+
+        // Show upload section
+        document.getElementById("step2").classList.remove("hidden");
+
+        alert("✅ Form downloaded. Please complete it and Emait to Alliaster Borman or Erntrust.");
+        }
+
+        
+    </script>
+    <!-- FOOTER -->
+    <footer class="bg-[#0f3d3a] text-white/80 py-16">
+
+        <!-- LOGOS -->
+        <div class="max-w-7xl mx-auto px-6 mb-14">
+            <div class="flex flex-wrap justify-center items-center gap-10">
+
+                <!-- Logo 1 -->
+                <div class="w-100 h-50 flex items-center justify-center bg-white/5 rounded-xl p-4">
+                    <img src="images/1.png" alt="Partner Logo"
+                         class="max-h-full max-w-full object-contain opacity-80 hover:opacity-100 transition">
+                </div>
+
+                <!-- Logo 2 -->
+                <div class="w-100 h-50 flex items-center justify-center bg-white/5 rounded-xl p-4">
+                    <img src="images/2.jpeg" alt="Partner Logo"
+                         class="max-h-full max-w-full object-contain opacity-80 hover:opacity-100 transition">
+                </div>
+
+            </div>
+        </div>
+
+        <!-- REST OF FOOTER -->
+        <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-12 gap-y-12">
+        
+        <!-- LEFT -->
+        <div class="md:col-span-5">
+            <div class="flex items-center gap-x-3 text-white">
+                <div class="w-10 h-10 bg-white rounded-2xl flex items-center justify-center text-[#0f3d3a] text-3xl font-bold">GP</div>
+                <div class="text-2xl font-bold tracking-tighter">GAUTENG PROPERTY FINANCE</div>
+
+            </div>
+
+            <p class="mt-8 max-w-xs">
+                Opening doors through property finance since 2023. Expert guidance for first-time buyers and self-employed professionals across Gauteng.
+            </p>
+        </div>
+
+        <!-- LINKS -->
+        <div class="md:col-span-3">
+            <div class="uppercase text-xs tracking-widest mb-6 text-white/50">Quick Links</div>
+            <ul class="space-y-3">
+                <li><a href="#about" class="hover:text-white transition">About Us</a></li>
+                <li><a href="#firsttime" class="hover:text-white transition">First-Time Buyers</a></li>
+                <li><a href="#selfemployed" class="hover:text-white transition">Self-Employed Guide</a></li>
+                <li><a href="#steps" class="hover:text-white transition">7 Steps Process</a></li>
+            </ul>
+        </div>
+
+        <!-- PARTNERS -->
+        <div class="md:col-span-4">
+            <div class="text-xs text-white/50 mb-6">PARTNERS &amp; LENDERS</div>
+            <div class="flex flex-wrap gap-8 opacity-70">
+                <div class="text-2xl font-bold">MultiNET</div>
+                <div class="text-2xl font-bold">ERNTRUST</div>
+                <div class="text-2xl font-bold">ABSA</div>
+                <div class="text-2xl font-bold">FNB</div>
+                <div class="text-2xl font-bold">NEDBANK</div>
+                <div class="text-2xl font-bold">STANDARD</div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- BOTTOM -->
+    <div class="max-w-7xl mx-auto px-6 mt-20 pt-12 border-t border-white/10 text-xs flex flex-col md:flex-row justify-between items-center gap-y-6">
+        <div>© 2026 Gauteng Property Finance. All rights reserved.</div>
+
+        <div class="flex gap-x-8">
+            <a href="#" class="hover:text-white">Privacy</a>
+            <a href="#" class="hover:text-white">Terms</a>
+            <a href="#" class="hover:text-white">PAIA</a>
+        </div>
+
+        <div>Made with ❤️ for Gauteng homeowners</div>
+    </div>
+
+</footer>
+
+        <!-- PRE-APPROVAL MODAL -->
+        <!-- FIX: Removed conflicting hidden + flex Tailwind classes. Modal visibility now managed entirely via JS (is-open CSS class) -->
+        <div id="modal">
+            <div class="bg-white rounded-3xl max-w-lg w-full mx-4 overflow-hidden">
+                <div class="px-8 py-6 border-b flex items-center justify-between">
+                    <div class="font-bold text-2xl">Pre-Approval Form</div>
+                    <button onclick="hideModal()" class="text-3xl text-slate-400 hover:text-slate-900 leading-none">&times;</button>
+                </div>
+            
+                <div class="p-8 space-y-6">
+                    <input type="text" id="modal-name" placeholder="Full name" class="w-full border border-slate-200 rounded-2xl px-6 py-4 text-lg">
+                    <input type="tel" id="modal-phone" placeholder="Phone number" class="w-full border border-slate-200 rounded-2xl px-6 py-4 text-lg">
+                    <input type="email" id="modal-email" placeholder="Email address" class="w-full border border-slate-200 rounded-2xl px-6 py-4 text-lg">
+                    <div class="grid grid-cols-2 gap-6">
+                        <input type="text" id="modal-amount" placeholder="Desired bond amount" class="w-full border border-slate-200 rounded-2xl px-6 py-4 text-lg">
+                        <select id="modal-type" class="w-full border border-slate-200 rounded-2xl px-6 py-4 text-lg">
+                            <option>First-time buyer</option>
+                            <option>Self-employed</option>
+                            <option>Investor</option>
+                        </select>
+                    </div>
+                </div>
+            
+                <div class="bg-slate-50 px-8 py-6 flex justify-end gap-x-4">
+                    <button onclick="hideModal()" class="px-8 py-4 text-slate-500 font-medium">Cancel</button>
+                    <button onclick="submitPreApproval()"
+                        class="bg-[#d71920]">
+                    text-white px-10 py-4 rounded-3xl font-bold">
+                        SUBMIT FOR PRE-APPROVAL
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            // ── Smooth scroll ─────────────────────────────────────────────────────────
+            function smoothScrollTo(sectionId) {
+            const el = document.getElementById(sectionId);
+            if (el) {
+            el.scrollIntoView({ behavior: 'smooth' });
+            }
+            // Close mobile menu if open
+            const menu = document.getElementById('mobile-menu');
+            if (!menu.classList.contains('hidden')) {
+            menu.classList.add('hidden');
+            }
+            }
+
+            // ── Mobile menu ───────────────────────────────────────────────────────────
+            function toggleMobileMenu() {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+            }
+
+            // ── Modal ─────────────────────────────────────────────────────────────────
+            function showModal() {
+            document.getElementById('modal').classList.add('is-open');
+            document.body.style.overflow = 'hidden'; // prevent background scroll
+            }
+
+            function hideModal() {
+            document.getElementById('modal').classList.remove('is-open');
+            document.body.style.overflow = '';
+            }
+
+            function submitPreApproval() {
+            alert('✅ Thank you! A Gauteng Property Finance consultant will contact you within 2 hours.');
+            // Clear modal fields
+            ['modal-name','modal-phone','modal-email','modal-amount'].forEach(id => {
+            document.getElementById(id).value = '';
+            });
+            hideModal();
+            }
+
+            // Close modal when clicking the backdrop
+            document.getElementById('modal').addEventListener('click', function(e) {
+            if (e.target === this) hideModal();
+            });
+
+            // Keyboard escape
+            document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') hideModal();
+            });
+
+            // ── Contact form ──────────────────────────────────────────────────────────
+            function submitContactForm() {
+            const fname = document.getElementById('fname').value.trim();
+            const lname = document.getElementById('lname').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+
+            if (!fname || !lname || !phone) {
+            alert('Please fill in your name and phone number before submitting.');
+            return;
+            }
+
+            alert('🎉 Thank you, ' + fname + '! Your request has been received. We will contact you shortly.');
+
+            // Reset fields
+            document.getElementById('fname').value = '';
+            document.getElementById('lname').value = '';
+            document.getElementById('phone').value = '';
+            document.getElementById('interest').selectedIndex = 0;
+            }
+
+            // ── Scroll progress bar ───────────────────────────────────────────────────
+            window.addEventListener('scroll', () => {
+            const winScroll = document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = height > 0 ? (winScroll / height) * 100 : 0;
+            document.getElementById('progress-bar').style.width = scrolled + '%';
+            });
+
+            console.log('%c✅ Gauteng Property Finance website ready!', 'color:#10b981; font-size:13px');
+        </script>
+    </body>
+</html>
+
